@@ -1,0 +1,1018 @@
+{
+"info": {
+"_postman_id": "d93485ff-aeb0-4432-acb9-b0866953aa0a",
+"name": "Users",
+"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+},
+"item": [
+{
+"name": "Login [admin]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "706e02a8-a50a-44f3-a45f-b93b22a89954",
+"exec": [
+"pm.globals.set('admin_token', pm.response.json().token);",
+"",
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"method": "POST",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"value": "application/json",
+"type": "text"
+}
+],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"email\": \"{{admin_email}}\",\n\t\"password\": \"{{admin_password}}\"\n}\n",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/login",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"login"
+]
+}
+},
+"response": []
+},
+{
+"name": "Create [admin]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "5d9466ec-967e-469e-8a91-08f3fee9dc69",
+"exec": [
+"pm.test(\"Status code is 201\", function () {",
+"    pm.response.to.have.status(201);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "POST",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"value": "application/json",
+"type": "text"
+}
+],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"username\": \"John Doe\",\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{user_password}}\",\n\t\"roles\": []\n}\n",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+]
+}
+},
+"response": []
+},
+{
+"name": "Login [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "d76e4e29-159f-4e89-9ca3-b8dfc0d55589",
+"exec": [
+"pm.globals.set('user_token', pm.response.json().token);",
+"",
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"method": "POST",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"type": "text",
+"value": "application/json"
+}
+],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{user_password}}\"\n}\n",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/login",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"login"
+]
+}
+},
+"response": []
+},
+{
+"name": "Profile [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "ca30a164-d028-4527-b34b-7b5259877aea",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"pm.test(\"Email is correct\", () => {",
+"    const json = pm.response.json();",
+"    pm.expect(json.email).to.eql(pm.environment.get(\"user_email\"));",
+"})",
+"",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{user_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"type": "text",
+"value": "application/json"
+}
+],
+"url": {
+"raw": "http://{{host}}:{{port}}/profile",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"profile"
+]
+}
+},
+"response": []
+},
+{
+"name": "List [admin]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "44e86c59-23c9-4c7f-9584-2ee4ade03482",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"const json = pm.response.json();",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"protocolProfileBehavior": {
+"disableBodyPruning": true
+},
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"body": {
+"mode": "raw",
+"raw": "",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+]
+}
+},
+"response": []
+},
+{
+"name": "List [admin] filtered email and username",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "956b90ef-ab31-47bc-a924-3e35ee6ced3f",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"const json = pm.response.json();",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"protocolProfileBehavior": {
+"disableBodyPruning": true
+},
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"body": {
+"mode": "raw",
+"raw": "",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users?filterBy[]=email&filterBy[]=username&filterQuery=john",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+],
+"query": [
+{
+"key": "filterBy[]",
+"value": "email"
+},
+{
+"key": "filterBy[]",
+"value": "username"
+},
+{
+"key": "filterQuery",
+"value": "john"
+}
+]
+}
+},
+"response": []
+},
+{
+"name": "List [admin] selected fields",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "5936998b-e7eb-408b-b49f-a848069aa1ec",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"const json = pm.response.json();",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"protocolProfileBehavior": {
+"disableBodyPruning": true
+},
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"body": {
+"mode": "raw",
+"raw": "",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users?fields=email&fields=username",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+],
+"query": [
+{
+"key": "fields",
+"value": "email"
+},
+{
+"key": "fields",
+"value": "username"
+}
+]
+}
+},
+"response": []
+},
+{
+"name": "List [admin] 1st page with simple sort",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "6d0b6e1c-532e-4506-92a7-42b8710db303",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"const json = pm.response.json();",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"protocolProfileBehavior": {
+"disableBodyPruning": true
+},
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"body": {
+"mode": "raw",
+"raw": "",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users?perPage=11&sortBy=createdAt&sortDirection=DESC",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+],
+"query": [
+{
+"key": "perPage",
+"value": "11"
+},
+{
+"key": "sortBy",
+"value": "createdAt"
+},
+{
+"key": "sortDirection",
+"value": "DESC"
+}
+]
+}
+},
+"response": []
+},
+{
+"name": "List [admin] page of 5 items from given set of keys with complex sort options",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "2d7c8230-9ca1-4956-8164-c13181c6645a",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"const json = pm.response.json();",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"protocolProfileBehavior": {
+"disableBodyPruning": true
+},
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"body": {
+"mode": "raw",
+"raw": "",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users?from[email]={{user_email}}&from[username]={{user_username}}&perPage=5&sortBy[0][key]=username&sortBy[0][sortDirection]=DESC&sortBy[1][key]=email&sortBy[1][sortDirection]=DESC",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+],
+"query": [
+{
+"key": "from[email]",
+"value": "{{user_email}}"
+},
+{
+"key": "from[username]",
+"value": "{{user_username}}"
+},
+{
+"key": "perPage",
+"value": "5"
+},
+{
+"key": "sortBy[0][key]",
+"value": "username"
+},
+{
+"key": "sortBy[0][sortDirection]",
+"value": "DESC"
+},
+{
+"key": "sortBy[1][key]",
+"value": "email"
+},
+{
+"key": "sortBy[1][sortDirection]",
+"value": "DESC"
+}
+]
+}
+},
+"response": []
+},
+{
+"name": "List [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "40b0a7a4-19a5-4aaa-a8a8-423bbf4b71e8",
+"exec": [
+"pm.test(\"Status code is 403\", function () {",
+"    pm.response.to.have.status(403);",
+"});"
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{user_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"url": {
+"raw": "http://{{host}}:{{port}}/users",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users"
+]
+}
+},
+"response": []
+},
+{
+"name": "Get [admin]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "59c38569-f7dd-4daa-ab2c-1439da2d4a3e",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"protocolProfileBehavior": {
+"disableBodyPruning": true
+},
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"key\":\"email\",\n    \"perPage\":10\n}",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{user_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{user_email}}"
+]
+}
+},
+"response": []
+},
+{
+"name": "Get self [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "0d1d380e-b5a0-4fa8-a2ff-e2b8e8aa9b5d",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{user_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{user_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{user_email}}"
+]
+}
+},
+"response": []
+},
+{
+"name": "Get other [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "0fef4863-cc2f-4864-8650-c92e2f894d58",
+"exec": [
+"pm.test(\"Status code is 403\", function () {",
+"    pm.response.to.have.status(403);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{user_token}}",
+"type": "string"
+}
+]
+},
+"method": "GET",
+"header": [],
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{admin_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{admin_email}}"
+]
+}
+},
+"response": []
+},
+{
+"name": "Update [admin]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "4449f99d-aebb-4b60-ae12-03ebcd76151a",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"pm.test(\"Name is updated\", () => {",
+"    const json = pm.response.json();",
+"    pm.expect(json.username).to.eql(\"Johnny D.\");",
+"})",
+"",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "PUT",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"value": "application/json",
+"type": "text"
+}
+],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"username\": \"Johnny D.\",\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{user_password}}\",\n\t\"roles\": []\n}\n",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{user_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{user_email}}"
+]
+}
+},
+"response": []
+},
+{
+"name": "Update Self [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "8828b4c1-65f3-4083-98f0-107c0b4cab94",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+"",
+"pm.test(\"Name is updated\", () => {",
+"    const json = pm.response.json();",
+"    pm.expect(json.username).to.eql(\"Johnny B. Good\");",
+"})",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{user_token}}",
+"type": "string"
+}
+]
+},
+"method": "PUT",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"value": "application/json",
+"type": "text"
+}
+],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"username\": \"Johnny B. Good\",\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{user_password}}\",\n\t\"roles\": []\n}\n",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{user_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{user_email}}"
+]
+}
+},
+"response": []
+},
+{
+"name": "Update Other [user]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "3e08d90f-ed2b-4163-95cd-d6ca855c5889",
+"exec": [
+"pm.test(\"Status code is 403\", function () {",
+"    pm.response.to.have.status(403);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{user_token}}",
+"type": "string"
+}
+]
+},
+"method": "PUT",
+"header": [
+{
+"key": "Content-Type",
+"name": "Content-Type",
+"value": "application/json",
+"type": "text"
+}
+],
+"body": {
+"mode": "raw",
+"raw": "{\n\t\"username\": \"Not An Admin Anymore\",\n\t\"email\": \"{{user_email}}\",\n\t\"password\": \"{{user_password}}\",\n\t\"roles\": []\n}\n",
+"options": {
+"raw": {
+"language": "json"
+}
+}
+},
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{admin_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{admin_email}}"
+]
+}
+},
+"response": []
+},
+{
+"name": "Delete [admin]",
+"event": [
+{
+"listen": "test",
+"script": {
+"id": "b760e22f-d13b-49cf-abf2-4ac82ae572ff",
+"exec": [
+"pm.test(\"Status code is 200\", function () {",
+"    pm.response.to.have.status(200);",
+"});",
+""
+],
+"type": "text/javascript"
+}
+}
+],
+"request": {
+"auth": {
+"type": "bearer",
+"bearer": [
+{
+"key": "token",
+"value": "{{admin_token}}",
+"type": "string"
+}
+]
+},
+"method": "DELETE",
+"header": [],
+"url": {
+"raw": "http://{{host}}:{{port}}/users/{{user_email}}",
+"protocol": "http",
+"host": [
+"{{host}}"
+],
+"port": "{{port}}",
+"path": [
+"users",
+"{{user_email}}"
+]
+}
+},
+"response": []
+}
+],
+"protocolProfileBehavior": {}
+}

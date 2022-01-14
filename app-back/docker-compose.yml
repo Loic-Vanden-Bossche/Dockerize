@@ -1,0 +1,61 @@
+version: "3.1"
+services:
+
+  # app nest container
+  nest:
+    build:
+      context: '.'
+      dockerfile: './docker/api.Dockerfile'
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/srv/nest:rw,cached'
+    command: 'npm run start:dev'
+
+  npm:
+    image: 'node:12'
+    working_dir: '/home/node/app'
+    entrypoint: 'npm'
+    volumes:
+      - '.:/home/node/app:rw,cached'
+    links:
+      - mysql5
+      - mysql5_tests
+    depends_on:
+      - mysql5
+      - mysql5_tests
+
+
+
+
+
+  mysql5:
+    image: mysql:5.7
+    container_name: test-proj_mysql5
+    restart: always
+    volumes:
+      - ./db/data/test-proj_mysql5:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=P455W0RD
+      - MYSQL_USER=test-proj
+      - MYSQL_PASSWORD=P455W0RD
+      - MYSQL_DATABASE=test-proj
+      
+
+  mysql5_tests:
+    image: mysql:5.7
+    container_name: test-proj_mysql5_tests
+    restart: always
+    volumes:
+      - ./db/data/test-proj_mysql5_tests:/var/lib/mysql
+    ports:
+      - 33060:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=P455W0RD
+      - MYSQL_USER=test-proj
+      - MYSQL_PASSWORD=P455W0RD
+      - MYSQL_DATABASE=test-proj_tests
+      
+
