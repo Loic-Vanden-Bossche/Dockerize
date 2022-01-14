@@ -1,0 +1,28 @@
+{
+  "testEnvironment": "node",
+  "roots": [
+    "<rootDir>"
+  ],
+  "transform": {
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "testRegex": ".+\\.(test|spec)\\.tsx?$",
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "node"
+  ],
+  "moduleNameMapper": {
+    "src/(.*)": "<rootDir>/src/$1"
+  },
+  "coverageReporters": [
+    "json",
+    "lcov",
+    "text",
+    "clover",
+    "html"
+  ]
+}
