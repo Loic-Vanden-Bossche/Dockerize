@@ -1,0 +1,51 @@
+{
+  "generator-nodehipster": {
+    "sharedData": {},
+    "forwardErrorToEnvironment": false,
+    "skipLocalCache": true,
+    "name": "test-proj",
+    "initialGenerator": true,
+    "resolved": "C:\\Users\\LVDB\\WebstormProjects\\generator-node\\lib\\generators\\server\\index.js",
+    "namespace": "node:server",
+    "_": [],
+    "skip-cache": false,
+    "skip-install": false,
+    "force-install": false,
+    "ask-answered": false,
+    "applicationType": "node-server",
+    "skipInstall": false,
+    "skipCache": false,
+    "forceInstall": false,
+    "help": false,
+    "h": false,
+    "verbose": false,
+    "database": "mysql5",
+    "run": "docker",
+    "useSwagger": false,
+    "framework": "nest",
+    "apiType": "rest",
+    "packageManager": "npm",
+    "authentication": [
+      "jwt"
+    ],
+    "commitizen": true,
+    "gitHooks": [
+      "preCommit",
+      "prePush"
+    ],
+    "ports": {
+      "node_server": {
+        "host": 3000,
+        "container": 3000
+      },
+      "database": {
+        "host": 3306,
+        "container": 3306
+      },
+      "test_database": {
+        "host": 33060,
+        "container": 3306
+      }
+    }
+  }
+}
