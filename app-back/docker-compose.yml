@@ -25,10 +25,6 @@ services:
       - mysql5
       - mysql5_tests
 
-
-
-
-
   mysql5:
     image: mysql:5.7
     container_name: test-proj_mysql5
@@ -42,7 +38,6 @@ services:
       - MYSQL_USER=test-proj
       - MYSQL_PASSWORD=P455W0RD
       - MYSQL_DATABASE=test-proj
-      
 
   mysql5_tests:
     image: mysql:5.7

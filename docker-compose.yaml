@@ -1,0 +1,46 @@
+version: '3'
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PWD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./postgresql/data/${DB_NAME}:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+
+  postgres-test:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_TEST_USER}
+      - POSTGRES_PASSWORD=${DB_TEST_PWD}
+      - POSTGRES_DB=${DB_TEST_NAME}
+    volumes:
+      - ./postgresql/data/${DB_TEST_NAME}:/var/lib/postgresql/data
+    ports:
+      - "${DB_TEST_PORT}:${DB_TEST_PORT}"
+
+  app-back:
+    build:
+      context: '.'
+      dockerfile: Dockerfile.nest
+    volumes:
+      - /app-back/node_modules
+      - ./service/config:/app-back/config
+      - ./service/src:/app-back/src
+      - ./service/test:/app-back/test
+    ports:
+      - "3000:3000"
+
+  app-front:
+    build:
+      context: '.'
+      dockerfile: Dockerfile.react
+    volumes:
+      - /app-front/node_modules
+      - ./app-front:/app-front
+    ports:
+      - "8080:8080"
