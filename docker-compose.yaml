@@ -3,6 +3,7 @@ services:
 
   postgres:
     image: postgres:latest
+    restart: always
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PWD}
@@ -14,6 +15,7 @@ services:
 
   postgres-test:
     image: postgres:latest
+    restart: always
     environment:
       - POSTGRES_USER=${DB_TEST_USER}
       - POSTGRES_PASSWORD=${DB_TEST_PWD}
@@ -21,19 +23,23 @@ services:
     volumes:
       - ./postgresql/data/${DB_TEST_NAME}:/var/lib/postgresql/data
     ports:
-      - "${DB_TEST_PORT}:${DB_TEST_PORT}"
+      - "${DB_TEST_PORT}:${DB_PORT}"
 
   app-back:
     build:
       context: '.'
       dockerfile: Dockerfile.nest
     volumes:
-      - /app-back/node_modules
-      - ./service/config:/app-back/config
-      - ./service/src:/app-back/src
-      - ./service/test:/app-back/test
+      - './app-back:/app-back:rw,cached'
     ports:
-      - "3000:3000"
+      - '${NEST_PORT}:${NEST_PORT}'
+    command: 'npm run start:dev'
+    links:
+      - postgres
+      - postgres-test
+    depends_on:
+      - postgres
+      - postgres-test
 
   app-front:
     build:
@@ -43,4 +49,5 @@ services:
       - /app-front/node_modules
       - ./app-front:/app-front
     ports:
-      - "8080:8080"
+      - '${REACT_PORT}:${REACT_PORT}'
+    command: 'npm run start'
