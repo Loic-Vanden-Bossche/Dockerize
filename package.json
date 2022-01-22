@@ -5,7 +5,10 @@
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "start": "docker-compose stop && docker-compose up --build -d --remove-orphans"
+    "start": "docker-compose stop && docker-compose up --build",
+    "start:back": "npm run start:dev --prefix packages/backend",
+    "start:front": "npm start --prefix packages/frontend",
+    "start:database": "docker-compose up --build database"
   },
   "author": "",
   "license": "ISC"
