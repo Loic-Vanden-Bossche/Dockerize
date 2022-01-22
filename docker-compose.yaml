@@ -10,7 +10,8 @@ services:
     ports:
       - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     volumes:
-      - "./packages/frontend/src:/usr/src/app/src"
+      - ./packages/frontend:/usr/src/app
+      - /usr/src/app/node_modules/
     networks:
       - bp-network
     command: "npm start"
@@ -23,8 +24,8 @@ services:
     env_file: .env
     volumes:
       - ./packages/backend:/svr/app
+      - /svr/app/node_modules/
       - "./scripts/wait.sh:/wait.sh"
-      - /svr/app/node_modules
     networks:
       - bp-network
     ports:
