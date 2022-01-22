@@ -1,53 +1,72 @@
-version: '3'
+version: "3.9"
 services:
-
-  postgres:
-    image: postgres:latest
+  frontend:
+    container_name: frontend
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile.local
     restart: always
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PWD}
-      - POSTGRES_DB=${DB_NAME}
+    env_file: .env
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     volumes:
-      - ./postgresql/data/${DB_NAME}:/var/lib/postgresql/data
+      - "./packages/frontend/src:/usr/src/app/src"
+    networks:
+      - bp-network
+    command: "npm start"
+  backend:
+    container_name: backend
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile.local
+    restart: always
+    env_file: .env
+    volumes:
+      - ./packages/backend:/svr/app
+      - "./scripts/wait.sh:/wait.sh"
+      - /svr/app/node_modules
+    networks:
+      - bp-network
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    depends_on:
+      - bp-pg-db
+    links:
+      - bp-pg-db
+  bp-pg-db:
+    image: postgres:12-alpine
+    restart: always
+    container_name: bp-pg-db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "${DB_PORT}:${DB_PORT}"
-
-  postgres-test:
-    image: postgres:latest
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    networks:
+      - bp-network
+  pgadmin-portal:
+    image: dpage/pgadmin4
     restart: always
+    container_name: pgadmin-portal
+    env_file:
+      - .env
     environment:
-      - POSTGRES_USER=${DB_TEST_USER}
-      - POSTGRES_PASSWORD=${DB_TEST_PWD}
-      - POSTGRES_DB=${DB_TEST_NAME}
+      PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+      PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
     volumes:
-      - ./postgresql/data/${DB_TEST_NAME}:/var/lib/postgresql/data
+      - ./db/admin:/root/.pgadmin
     ports:
-      - "${DB_TEST_PORT}:${DB_PORT}"
-
-  app-back:
-    build:
-      context: '.'
-      dockerfile: Dockerfile.nest
-    volumes:
-      - './app-back:/app-back:rw,cached'
-    ports:
-      - '${NEST_PORT}:${NEST_PORT}'
-    command: 'npm run start:dev'
-    links:
-      - postgres
-      - postgres-test
+      - "${PGADMIN_PORT}:80"
     depends_on:
-      - postgres
-      - postgres-test
-
-  app-front:
-    build:
-      context: '.'
-      dockerfile: Dockerfile.react
-    volumes:
-      - /app-front/node_modules
-      - ./app-front:/app-front
-    ports:
-      - '${REACT_PORT}:${REACT_PORT}'
-    command: 'npm run start'
+      - bp-pg-db
+    networks:
+      - bp-network
+networks:
+  bp-network:
+    driver: bridge
