@@ -21,7 +21,7 @@ export class AuthService {
     private readonly logger: Logger,
     private readonly usersService: UserService,
   ) {
-    // this.logger.setContext('auth');
+    this.logger.setContext('auth');
   }
 
   async validateUser(token: string): Promise<User> {

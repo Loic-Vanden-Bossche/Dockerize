@@ -5,9 +5,8 @@ import { Logger } from './utils/logger';
 
 loadEnvironmentVariables();
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useLogger(new Logger());
-  const port = Number(process.env.PORT) || 3000;
+  const app = await NestFactory.create(AppModule, { logger: new Logger });
+  const port = Number(process.env.BACKEND_PORT) || 4000;
   await app.listen(port);
 }
 bootstrap();
