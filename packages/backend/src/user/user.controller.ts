@@ -24,7 +24,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { SelfGuard } from '../auth/guards/self.guard';
 import { JoiValidationPipe } from '../utils/validation.pipe';
 import { Logger } from '../utils/logger';
-import Joi from 'joi';
+import * as Joi from 'joi';
 import { IPageOptions } from '../common/paginator/dto/page-options.interface';
 import { Page } from '../common/paginator/dto/page.dto';
 
@@ -35,7 +35,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly roleService: RolesService,
   ) {
-    // this.logger.setContext('users');
+    this.logger.setContext('users');
   }
 
   private static sanitizeId(rawEmail: string): string {

@@ -22,12 +22,12 @@ export const loadEnvironmentVariables = (): void => {
     Logger.log('Loading env from :' + path.resolve(__dirname, envPath), 'env');
   }
 
-  dotenv.config({ path: path.resolve(__dirname, envPath) });
+  // dotenv.config({ path: path.resolve(__dirname, envPath) });
 
   if (!silent()) {
     Logger.log('Using database configuration', 'env');
     Object.keys(process.env)
-      .filter((k) => k.startsWith('TYPEORM'))
+      .filter((k) => k.startsWith('DB'))
       .forEach((k) => Logger.log(`${k}=${process.env[k]}`, 'env'));
   }
 };

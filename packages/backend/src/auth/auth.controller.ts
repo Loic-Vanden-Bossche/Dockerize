@@ -27,7 +27,7 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly logger: Logger,
   ) {
-    // this.logger.setContext('auth');
+    this.logger.setContext('auth');
   }
 
   @Post('login')
