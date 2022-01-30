@@ -64,7 +64,7 @@ services:
       POSTGRES_USER: ${DB_TEST_USER}
       POSTGRES_DB: dockerize_test
     ports:
-      - "5433:5432"
+      - "${DB_TEST_PORT}:5432"
     volumes:
       - ./db/data_test:/var/lib/postgresql/data_test
     networks:
