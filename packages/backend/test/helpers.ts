@@ -14,12 +14,14 @@ import { Role } from '../src/roles/role.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RolesModule } from '../src/roles/role.module';
 
-import { INestApplication } from '@nestjs/common';
+import {INestApplication, Logger} from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../src/auth/auth.module';
 import { UserModule } from '../src/user/user.module';
-import { loadEnvironmentVariables } from '../src/utils/env';
+import path from "path";
+import { silent } from "../src/utils/logger";
+import * as dotenv from "dotenv";
 
 export class TestHelpers {
   public roleFactory: RoleFactory;
@@ -35,17 +37,23 @@ export class TestHelpers {
     this.roleFactory = new RoleFactory(5);
   }
   public startServer = async (): Promise<INestApplication> => {
-    loadEnvironmentVariables();
+
+    this.loadEnvironmentVariables();
 
     const module = await Test.createTestingModule({
       imports: [
         RolesModule,
         TypeOrmModule.forRoot({
           keepConnectionAlive: true,
-          migrationsRun: true,
+          type: 'postgres',
+          host: process.env.DB_TEST_HOST,
+          port: Number(process.env.DB_TEST_PORT),
+          username: process.env.DB_TEST_USER,
+          password: process.env.DB_TEST_PASSWORD,
+          database: process.env.DB_TEST_NAME,
+          entities: ['src/**/*.model.ts'],
+          migrations: ['migrations/*.ts'],
         }),
-        TypeOrmModule.forFeature([User, Role]),
-
         UserModule,
         AuthModule,
         PassportModule,
@@ -76,10 +84,9 @@ export class TestHelpers {
 
   public resetDatabase = async (): Promise<void> => {
     try {
-      await this.connection.dropDatabase();
+      await this.connection.synchronize(true);
       await this.connection.runMigrations();
     } catch (e) {
-      // console.error('Cannot reset test database', e);
       throw Error(e);
     }
   };
@@ -89,7 +96,6 @@ export class TestHelpers {
     roles: number;
   }): Promise<{ users: User[]; roles: Role[] }> => {
     try {
-      // console.time('recreate_data');
       await this.resetDatabase();
       this.roleFactory.setNbRecords(options.roles);
       this.userFactory.setNbRecords(options.users);
@@ -97,10 +103,8 @@ export class TestHelpers {
       const savedRoles = await this.rolesRepository.save(roles);
       const users = this.userFactory.generateTestData(savedRoles);
       await this.usersRepository.save(users);
-      // console.timeEnd('recreate_data');
       return { users, roles };
     } catch (e) {
-      // console.error('Cannot recreate test data', e);
       throw Error(e);
     }
   };
@@ -137,6 +141,16 @@ export class TestHelpers {
       throw new Error("Token couldn't be fetched");
     }
     return response.body.token;
+  };
+
+  private loadEnvironmentVariables = (): void => {
+    const envPath = path.join(__dirname, '..', '..', '..', '.env');
+
+    if (!silent()) {
+      Logger.log('Loading env from :' + path.resolve(__dirname, envPath), 'env');
+    }
+
+    dotenv.config({ path: path.resolve(__dirname, envPath) });
   };
 }
 

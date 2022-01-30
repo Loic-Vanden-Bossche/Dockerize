@@ -1,5 +1,5 @@
 import { User } from '../../src/user/user.model';
-import fakerStatic from 'faker';
+import { faker } from '@faker-js/faker';
 import { hashSync } from 'bcrypt';
 import { Role } from '../../src/roles/role.model';
 
@@ -28,7 +28,7 @@ export class UserFactory {
   };
 
   public getRandomUser = (): User => {
-    return fakerStatic.random.arrayElement(
+    return faker.random.arrayElement(
       this.testData.filter(
         (user) =>
           user.roles && !user.roles.map((r) => r.name).includes('admin'),
@@ -37,7 +37,7 @@ export class UserFactory {
   };
 
   public getRandomAdmin = (): User => {
-    return fakerStatic.random.arrayElement(
+    return faker.random.arrayElement(
       this.testData.filter(
         (user) => user.roles && user.roles.map((r) => r.name).includes('admin'),
       ),
@@ -52,17 +52,17 @@ export class UserFactory {
     this.unhashedPasswords.get(email);
 
   private generateUser = (roles: Role[]): User => {
-    const isAdmin = fakerStatic.random.arrayElement([false, true]);
+    const isAdmin = faker.random.arrayElement([false, true]);
     const nbRoles =
-      Math.floor(fakerStatic.datatype.number(roles.length - 1)) +
+      Math.floor(faker.datatype.number(roles.length - 1)) +
       1 -
       (isAdmin ? 1 : 0);
     const user = new User();
-    const password = fakerStatic.internet.password(9);
-    user.createdAt = fakerStatic.date.past();
+    const password = faker.internet.password(9);
+    user.createdAt = faker.date.past();
     user.deleteAt = null;
-    user.username = fakerStatic.name.findName().slice(0, 24);
-    user.email = fakerStatic.internet.email();
+    user.username = faker.name.findName().slice(0, 24);
+    user.email = faker.internet.email();
     user.password = hashSync(password, 10);
     const userRoles: Role[] = [];
     const adminRole = roles.find((r) => r.name === 'admin');

@@ -7,8 +7,10 @@ importers:
 
   packages/backend:
     specifiers:
+      '@faker-js/faker': ^6.0.0-alpha.3
       '@nestjs/cli': ^8.0.0
       '@nestjs/common': ^8.0.0
+      '@nestjs/config': ^1.1.6
       '@nestjs/core': ^8.0.0
       '@nestjs/passport': ^8.1.0
       '@nestjs/platform-express': ^8.0.0
@@ -33,6 +35,7 @@ importers:
       jsonwebtoken: ^8.5.1
       passport: ^0.5.2
       passport-http-bearer: ^1.0.1
+      pg: ^8.7.1
       prettier: ^2.3.2
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
@@ -46,6 +49,7 @@ importers:
       typescript: ^4.3.5
     dependencies:
       '@nestjs/common': 8.2.6_88a789cb3f20cca25c3f70fe96f41643
+      '@nestjs/config': 1.1.6_0f75cad7c3bc55c714d492fe95499bdf
       '@nestjs/core': 8.2.6_2d4ee36c4446df4873bb38fb1c4583da
       '@nestjs/passport': 8.1.0_469354efd308cbdee43194b5fd6a2c15
       '@nestjs/platform-express': 8.2.6_732a54a2558f64827b8cc4f9baac4f1f
@@ -58,11 +62,13 @@ importers:
       jsonwebtoken: 8.5.1
       passport: 0.5.2
       passport-http-bearer: 1.0.1
+      pg: 8.7.1
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
       rxjs: 7.5.2
-      typeorm: 0.2.41
+      typeorm: 0.2.41_pg@8.7.1
     devDependencies:
+      '@faker-js/faker': 6.0.0-alpha.5
       '@nestjs/cli': 8.2.0_eslint@7.32.0
       '@nestjs/schematics': 8.0.5_typescript@4.5.5
       '@nestjs/testing': 8.2.6_b893ca8083ee374883b6d648098a9aeb
@@ -1602,6 +1608,11 @@ packages:
       - supports-color
     dev: false
 
+  /@faker-js/faker/6.0.0-alpha.5:
+    resolution: {integrity: sha512-8Is/xFxNgricqmhQR/AJ4Vi0cKzSR7FcpE0ImG9dWciuSxUkyCiK+B5/hTQP8jrVbtgTjpFC1AaTCnALJOBDmw==}
+    engines: {node: '>=12.0.0', npm: '>=7.0.0'}
+    dev: true
+
   /@hapi/hoek/9.2.1:
     resolution: {integrity: sha512-gfta+H8aziZsm8pZa0vj04KO6biEiisppNgA1kbJvFrrWu9Vm7eaUEy76DIxsuTaWvti5fkJVhllWc6ZTE+Mdw==}
     dev: false
@@ -1957,6 +1968,22 @@ packages:
       - debug
     dev: false
 
+  /@nestjs/config/1.1.6_0f75cad7c3bc55c714d492fe95499bdf:
+    resolution: {integrity: sha512-HYizKt6Dr6gcZl8FmZbTfQxP0MG8oXMh+gVFT0XCwYDAq26BOKyhPsIxrKsryicVeKViRgetCUhlJY9EqaekZA==}
+    peerDependencies:
+      '@nestjs/common': ^7.0.0 || ^8.0.0
+      reflect-metadata: ^0.1.13
+      rxjs: ^6.0.0 || ^7.2.0
+    dependencies:
+      '@nestjs/common': 8.2.6_88a789cb3f20cca25c3f70fe96f41643
+      dotenv: 10.0.0
+      dotenv-expand: 5.1.0
+      lodash: 4.17.21
+      reflect-metadata: 0.1.13
+      rxjs: 7.5.2
+      uuid: 8.3.2
+    dev: false
+
   /@nestjs/core/8.2.6_2d4ee36c4446df4873bb38fb1c4583da:
     resolution: {integrity: sha512-NwPcEIMmCsucs3QaDlQvkoU1FlFM2wm/WjaqLQhkSoIEmAR1gNtBo88f5io5cpMwCo1k5xYhqGlaSl6TfngwWQ==}
     requiresBuild: true
@@ -2078,7 +2105,7 @@ packages:
       '@nestjs/core': 8.2.6_2d4ee36c4446df4873bb38fb1c4583da
       reflect-metadata: 0.1.13
       rxjs: 7.5.2
-      typeorm: 0.2.41
+      typeorm: 0.2.41_pg@8.7.1
       uuid: 8.3.2
     dev: false
 
@@ -3771,6 +3798,11 @@ packages:
 
   /buffer-indexof/1.1.1:
     resolution: {integrity: sha512-4/rOEg86jivtPTeOUUT61jJO1Ya1TrR/OkqCSZDyq84WJh3LuuiphBYJN+fm5xufIk4XAFcEwte/8WzC8If/1g==}
+    dev: false
+
+  /buffer-writer/2.0.0:
+    resolution: {integrity: sha512-a7ZpuTZU1TRtnwyCNW3I5dc0wWNC3VR9S++Ewyk2HHZdrO3CQJqSpd+95Us590V6AL7JqUAH2IwZ/398PmNFgw==}
+    engines: {node: '>=4'}
     dev: false
 
   /buffer/5.7.1:
@@ -7951,6 +7983,10 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
 
+  /packet-reader/1.0.0:
+    resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
+    dev: false
+
   /param-case/3.0.4:
     resolution: {integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==}
     dependencies:
@@ -8056,6 +8092,62 @@ packages:
 
   /performance-now/2.1.0:
     resolution: {integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=}
+    dev: false
+
+  /pg-connection-string/2.5.0:
+    resolution: {integrity: sha512-r5o/V/ORTA6TmUnyWZR9nCj1klXCO2CEKNRlVuJptZe85QuhFayC7WeMic7ndayT5IRIR0S0xFxFi2ousartlQ==}
+    dev: false
+
+  /pg-int8/1.0.1:
+    resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
+    engines: {node: '>=4.0.0'}
+    dev: false
+
+  /pg-pool/3.4.1_pg@8.7.1:
+    resolution: {integrity: sha512-TVHxR/gf3MeJRvchgNHxsYsTCHQ+4wm3VIHSS19z8NC0+gioEhq1okDY1sm/TYbfoP6JLFx01s0ShvZ3puP/iQ==}
+    peerDependencies:
+      pg: '>=8.0'
+    dependencies:
+      pg: 8.7.1
+    dev: false
+
+  /pg-protocol/1.5.0:
+    resolution: {integrity: sha512-muRttij7H8TqRNu/DxrAJQITO4Ac7RmX3Klyr/9mJEOBeIpgnF8f9jAfRz5d3XwQZl5qBjF9gLsUtMPJE0vezQ==}
+    dev: false
+
+  /pg-types/2.2.0:
+    resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
+    engines: {node: '>=4'}
+    dependencies:
+      pg-int8: 1.0.1
+      postgres-array: 2.0.0
+      postgres-bytea: 1.0.0
+      postgres-date: 1.0.7
+      postgres-interval: 1.2.0
+    dev: false
+
+  /pg/8.7.1:
+    resolution: {integrity: sha512-7bdYcv7V6U3KAtWjpQJJBww0UEsWuh4yQ/EjNf2HeO/NnvKjpvhEIe/A/TleP6wtmSKnUnghs5A9jUoK6iDdkA==}
+    engines: {node: '>= 8.0.0'}
+    peerDependencies:
+      pg-native: '>=2.0.0'
+    peerDependenciesMeta:
+      pg-native:
+        optional: true
+    dependencies:
+      buffer-writer: 2.0.0
+      packet-reader: 1.0.0
+      pg-connection-string: 2.5.0
+      pg-pool: 3.4.1_pg@8.7.1
+      pg-protocol: 1.5.0
+      pg-types: 2.2.0
+      pgpass: 1.0.5
+    dev: false
+
+  /pgpass/1.0.5:
+    resolution: {integrity: sha512-FdW9r/jQZhSeohs1Z3sI1yxFQNFvMcnmfuj4WBMUTxOrAyLMaTcE1aAMBiTlbMNaXvBCQuVi0R7hd8udDSP7ug==}
+    dependencies:
+      split2: 4.1.0
     dev: false
 
   /picocolors/0.2.1:
@@ -8819,6 +8911,28 @@ packages:
       nanoid: 3.2.0
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: false
+
+  /postgres-array/2.0.0:
+    resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
+    engines: {node: '>=4'}
+    dev: false
+
+  /postgres-bytea/1.0.0:
+    resolution: {integrity: sha1-AntTPAqokOJtFy1Hz5zOzFIazTU=}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /postgres-date/1.0.7:
+    resolution: {integrity: sha512-suDmjLVQg78nMK2UZ454hAG+OAW+HQPZ6n++TNDUX+L0+uUlLywnoxJKDou51Zm+zTCjrCl0Nq6J9C5hP9vK/Q==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
+  /postgres-interval/1.2.0:
+    resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      xtend: 4.0.2
     dev: false
 
   /prelude-ls/1.1.2:
@@ -9756,6 +9870,11 @@ packages:
       - supports-color
     dev: false
 
+  /split2/4.1.0:
+    resolution: {integrity: sha512-VBiJxFkxiXRlUIeyMQi8s4hgvKCSjtknJv/LVYbrgALPwf5zSKmEwV9Lst25AkvMDnvxODugjdl6KZgwKM1WYQ==}
+    engines: {node: '>= 10.x'}
+    dev: false
+
   /sprintf-js/1.0.3:
     resolution: {integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=}
 
@@ -10473,7 +10592,7 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: false
 
-  /typeorm/0.2.41:
+  /typeorm/0.2.41_pg@8.7.1:
     resolution: {integrity: sha512-/d8CLJJxKPgsnrZWiMyPI0rz2MFZnBQrnQ5XP3Vu3mswv2WPexb58QM6BEtmRmlTMYN5KFWUz8SKluze+wS9xw==}
     hasBin: true
     peerDependencies:
@@ -10534,6 +10653,7 @@ packages:
       glob: 7.2.0
       js-yaml: 4.1.0
       mkdirp: 1.0.4
+      pg: 8.7.1
       reflect-metadata: 0.1.13
       sha.js: 2.4.11
       tslib: 2.3.1

@@ -43,18 +43,15 @@ export class AuthService {
   }
 
   generateJWT = (payload: ITokenPayload): string => {
-    const privateKey = process.env.JWT_PRIVATE_KEY;
-    const token = sign({ user: payload }, privateKey, {
+    return sign({user: payload}, process.env.JWT_PRIVATE_KEY, {
       issuer: process.env.JWT_ISSUER,
       expiresIn: process.env.JWT_TTL,
       algorithm: 'RS256',
     });
-    return token;
   };
 
   private decipherToken = (token: string): IToken => {
-    const publicKey = process.env.JWT_PUBLIC_KEY;
-    const payload: unknown = verify(token, publicKey, {
+    const payload: unknown = verify(token, process.env.JWT_PUBLIC_KEY, {
       issuer: process.env.JWT_ISSUER,
       algorithms: ['RS256'],
     });
