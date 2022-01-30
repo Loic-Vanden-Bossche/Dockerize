@@ -8,7 +8,9 @@
     "start": "docker-compose stop && docker-compose up --build",
     "start:back": "npm run start:dev --prefix packages/backend",
     "start:front": "npm start --prefix packages/frontend",
-    "start:database": "docker-compose up --build database"
+    "start:database": "docker-compose up --build database",
+    "start:database-test": "docker-compose up --build database_test",
+    "typeorm": "npx ts-node ./node_modules/typeorm/cli.js"
   },
   "author": "",
   "license": "ISC"
