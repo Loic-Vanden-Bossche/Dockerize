@@ -62,8 +62,8 @@ jobs:
           DB_PASSWORD: root
           DB_PORT: 5433
 
-          JWT_ISSUER: secrets.JWT_ISSUER
-          JWT_TTL: secrets.JWT_TTL
-          JWT_PRIVATE_KEY: secrets.JWT_PRIVATE_KEY
-          JWT_PUBLIC_KEY: secrets.JWT_PUBLIC_KEY
+          JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
+          JWT_TTL: ${{ secrets.JWT_TTL }}
+          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+          JWT_PUBLIC_KEY: ${{ secrets.JWT_PUBLIC_KEY }}
 
