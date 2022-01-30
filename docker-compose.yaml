@@ -51,6 +51,24 @@ services:
       - ./db/data:/var/lib/postgresql/data
     networks:
       - bp-network
+
+  database_test:
+    image: postgres:12-alpine
+    restart: always
+    container_name: database_test
+    env_file:
+      - .env
+    environment:
+      POSTGRES_PASSWORD: ${DB_TEST_PASSWORD}
+      PGDATA: /var/lib/postgresql/data_test
+      POSTGRES_USER: ${DB_TEST_USER}
+      POSTGRES_DB: dockerize_test
+    ports:
+      - "${DB_TEST_PORT}:5432"
+    volumes:
+      - ./db/data_test:/var/lib/postgresql/data_test
+    networks:
+      - bp-network
   pgadmin-portal:
     image: dpage/pgadmin4
     restart: always

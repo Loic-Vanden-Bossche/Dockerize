@@ -1,4 +1,4 @@
-import fakerStatic from 'faker';
+import { faker } from '@faker-js/faker';
 import { Role } from '../../src/roles/role.model';
 
 export class RoleFactory {
@@ -27,11 +27,11 @@ export class RoleFactory {
   };
 
   public getRandomRole = (): Role => {
-    return fakerStatic.random.arrayElement(this.testData);
+    return faker.random.arrayElement(this.testData);
   };
 
   public getNotAdminRole = (): Role => {
-    return fakerStatic.random.arrayElement(
+    return faker.random.arrayElement(
       this.testData.filter((role) => role.name !== 'admin'),
     );
   };
@@ -42,7 +42,7 @@ export class RoleFactory {
 
   private generateRole = (roleName?: string): Role => {
     const role = new Role();
-    role.name = roleName || fakerStatic.name.jobType();
+    role.name = roleName || faker.name.jobType();
     return role;
   };
 }

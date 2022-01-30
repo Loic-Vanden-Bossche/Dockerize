@@ -14,12 +14,16 @@ import { Role } from '../src/roles/role.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RolesModule } from '../src/roles/role.module';
 
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger as BaseLogger} from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../src/auth/auth.module';
 import { UserModule } from '../src/user/user.module';
-import { loadEnvironmentVariables } from '../src/utils/env';
+import path from "path";
+import { silent } from "../src/utils/logger";
+import * as dotenv from "dotenv";
+
+import { Logger } from '../src/utils/logger'
 
 export class TestHelpers {
   public roleFactory: RoleFactory;
@@ -35,23 +39,29 @@ export class TestHelpers {
     this.roleFactory = new RoleFactory(5);
   }
   public startServer = async (): Promise<INestApplication> => {
-    loadEnvironmentVariables();
+
+    this.loadEnvironmentVariables();
 
     const module = await Test.createTestingModule({
       imports: [
         RolesModule,
         TypeOrmModule.forRoot({
           keepConnectionAlive: true,
-          migrationsRun: true,
+          type: 'postgres',
+          host: process.env.DB_HOST,
+          port: Number(process.env.DB_PORT),
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
+          entities: ['src/**/*.model.ts'],
+          migrations: ['migrations/*.ts'],
         }),
-        TypeOrmModule.forFeature([User, Role]),
-
         UserModule,
         AuthModule,
         PassportModule,
       ],
     }).compile();
-    const app = module.createNestApplication();
+    const app = module.createNestApplication(null, { logger: new Logger });
     await app.init();
 
     try {
@@ -76,10 +86,9 @@ export class TestHelpers {
 
   public resetDatabase = async (): Promise<void> => {
     try {
-      await this.connection.dropDatabase();
+      await this.connection.synchronize(true);
       await this.connection.runMigrations();
     } catch (e) {
-      // console.error('Cannot reset test database', e);
       throw Error(e);
     }
   };
@@ -89,7 +98,6 @@ export class TestHelpers {
     roles: number;
   }): Promise<{ users: User[]; roles: Role[] }> => {
     try {
-      // console.time('recreate_data');
       await this.resetDatabase();
       this.roleFactory.setNbRecords(options.roles);
       this.userFactory.setNbRecords(options.users);
@@ -97,10 +105,8 @@ export class TestHelpers {
       const savedRoles = await this.rolesRepository.save(roles);
       const users = this.userFactory.generateTestData(savedRoles);
       await this.usersRepository.save(users);
-      // console.timeEnd('recreate_data');
       return { users, roles };
     } catch (e) {
-      // console.error('Cannot recreate test data', e);
       throw Error(e);
     }
   };
@@ -133,16 +139,22 @@ export class TestHelpers {
         password: this.userFactory.getUnhashedPassword(user.email),
       });
     if (response.status === 401) {
-      // console.error('Token couldn\'t be fetched', JSON.stringify(response.body));
       throw new Error("Token couldn't be fetched");
     }
     return response.body.token;
   };
+
+  private loadEnvironmentVariables = (): void => {
+    const envPath = path.join(__dirname, '..', '..', '..', '.env.test');
+
+    if (!silent()) {
+      BaseLogger.log('Loading env from :' + path.resolve(__dirname, envPath), 'env');
+    }
+
+    dotenv.config({ path: path.resolve(__dirname, envPath) });
+  };
 }
 
-// InnoDB engines crop the milliseconds part when stored in DB
-// Result is rounded to closest second (mySQL) or floored (MariaDB)
-// So we expect a response ending with .000Z rounded to tthe nearest second
 export const roundToNearestSecond = (
   date: Date,
   mode: 'round' | 'floor' = 'round',
