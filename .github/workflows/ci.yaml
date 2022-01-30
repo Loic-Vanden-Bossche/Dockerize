@@ -31,20 +31,35 @@ jobs:
       - name: Build React front
         run: npm run build
 
-  back-test-e2e:
+  back-tests:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./packages/backend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install node modules
+        run: npm install
+      - name: Run tests
+        run: npm run test
+
+  back-tests-e2e:
     runs-on: ubuntu-20.04
     defaults:
       run:
         working-directory: ./packages/backend
     services:
-      mysql:
+      database:
         image: postgres:12-alpine
         env:
           POSTGRES_PASSWORD: "root"
           POSTGRES_USER: "postgres"
           POSTGRES_DB: "dockerize_test"
         ports:
-          - 5433:5432
+          - 5432:5432
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -60,7 +75,7 @@ jobs:
           DB_NAME: dockerize_test
           DB_USER: postgres
           DB_PASSWORD: root
-          DB_PORT: 5433
+          DB_PORT: 5432
           JWT_ISSUER: ${{ secrets.JWT_ISSUER }}
           JWT_TTL: ${{ secrets.JWT_TTL }}
           JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}

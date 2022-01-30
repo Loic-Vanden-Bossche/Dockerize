@@ -42,8 +42,6 @@ export class TestHelpers {
 
     this.loadEnvironmentVariables();
 
-    console.log(process.env);
-
     const module = await Test.createTestingModule({
       imports: [
         RolesModule,
