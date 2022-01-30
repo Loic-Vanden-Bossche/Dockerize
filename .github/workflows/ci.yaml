@@ -1,4 +1,4 @@
-name: Docker Compose Actions Workflow
+name: Dockerize
 on: push
 jobs:
   back-build:
