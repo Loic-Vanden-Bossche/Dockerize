@@ -14,7 +14,7 @@ import { Role } from '../src/roles/role.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RolesModule } from '../src/roles/role.module';
 
-import {INestApplication, Logger} from '@nestjs/common';
+import { INestApplication, Logger as BaseLogger} from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../src/auth/auth.module';
@@ -22,6 +22,8 @@ import { UserModule } from '../src/user/user.module';
 import path from "path";
 import { silent } from "../src/utils/logger";
 import * as dotenv from "dotenv";
+
+import { Logger } from '../src/utils/logger'
 
 export class TestHelpers {
   public roleFactory: RoleFactory;
@@ -46,11 +48,11 @@ export class TestHelpers {
         TypeOrmModule.forRoot({
           keepConnectionAlive: true,
           type: 'postgres',
-          host: process.env.DB_TEST_HOST,
-          port: Number(process.env.DB_TEST_PORT),
-          username: process.env.DB_TEST_USER,
-          password: process.env.DB_TEST_PASSWORD,
-          database: process.env.DB_TEST_NAME,
+          host: process.env.DB_HOST,
+          port: Number(process.env.DB_PORT),
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DB_NAME,
           entities: ['src/**/*.model.ts'],
           migrations: ['migrations/*.ts'],
         }),
@@ -59,7 +61,7 @@ export class TestHelpers {
         PassportModule,
       ],
     }).compile();
-    const app = module.createNestApplication();
+    const app = module.createNestApplication(null, { logger: new Logger });
     await app.init();
 
     try {
@@ -137,26 +139,22 @@ export class TestHelpers {
         password: this.userFactory.getUnhashedPassword(user.email),
       });
     if (response.status === 401) {
-      // console.error('Token couldn\'t be fetched', JSON.stringify(response.body));
       throw new Error("Token couldn't be fetched");
     }
     return response.body.token;
   };
 
   private loadEnvironmentVariables = (): void => {
-    const envPath = path.join(__dirname, '..', '..', '..', '.env');
+    const envPath = path.join(__dirname, '..', '..', '..', '.env.test');
 
     if (!silent()) {
-      Logger.log('Loading env from :' + path.resolve(__dirname, envPath), 'env');
+      BaseLogger.log('Loading env from :' + path.resolve(__dirname, envPath), 'env');
     }
 
     dotenv.config({ path: path.resolve(__dirname, envPath) });
   };
 }
 
-// InnoDB engines crop the milliseconds part when stored in DB
-// Result is rounded to closest second (mySQL) or floored (MariaDB)
-// So we expect a response ending with .000Z rounded to tthe nearest second
 export const roundToNearestSecond = (
   date: Date,
   mode: 'round' | 'floor' = 'round',
