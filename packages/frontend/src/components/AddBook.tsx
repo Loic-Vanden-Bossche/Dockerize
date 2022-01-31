@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./AddBook.css"
 
 const AddBook = (prop:{show:Boolean, disable:() => void}) => {
     const [Isbn, setIsbn] = useState("")
@@ -19,17 +20,19 @@ const AddBook = (prop:{show:Boolean, disable:() => void}) => {
             prop.disable()
         }
         return (
-            <div>
-                <h2>Add a book</h2>
-                <form>
-                    <label>ISBN<input type="text" onChange={(e) => setIsbn(e.target.value)}/></label>
-                    <label>Title<input type="text" onChange={(e) => setTitle(e.target.value)}/></label>
-                    <label>Author<input type="text" onChange={(e) => setAuthor(e.target.value)}/></label>
-                    <label>Overview<input type="text" onChange={(e) => setOverview(e.target.value)}/></label>
-                    <label>Picture<input type="file"/></label>
-                    <label>Read Count<input type="number"/></label>
-                </form>
-                <button onClick={ handleSubmit }>Validate</button>
+            <div className="AddBook">
+                <div>
+                    <h2>Add a book</h2>
+                    <form>
+                        <label>ISBN :<br/><input type="text" onChange={(e) => setIsbn(e.target.value)}/></label>
+                        <label>Title :<br/><input type="text" onChange={(e) => setTitle(e.target.value)}/></label>
+                        <label>Author :<br/><input type="text" onChange={(e) => setAuthor(e.target.value)}/></label>
+                        <label>Read Count :<br/><input type="number"/></label>
+                        <label>Picture :<br/><input type="file"/></label>
+                        <label>Overview :<br/><input type="text" onChange={(e) => setOverview(e.target.value)}/></label>
+                    </form>
+                    <button onClick={ handleSubmit }>Validate</button>
+                </div>
             </div>
         );
     }else{

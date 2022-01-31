@@ -1,0 +1,94 @@
+.AddBook {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.10);
+    backdrop-filter: blur(10px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.AddBook div{
+    width: 500px;
+    height: 500px;
+
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 100px black;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.AddBook div h2{
+    font-size: 24px;
+    letter-spacing: 3px;
+    margin: 0px;
+    text-transform: uppercase;
+}
+
+.AddBook div h2+form{
+    border-top: black solid 2px;
+    
+    border-image: linear-gradient(
+      to right, 
+      rgba(0, 0, 0, 0) 25%,
+      rgba(0, 0, 0, 1) 25.1%, 
+      rgba(0, 0, 0, 1) 74.9%, 
+      rgba(0, 0, 0, 0) 75% 
+    ) 1
+}
+
+.AddBook div form{
+    height: 300px;
+    width: 430px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    padding-top: 50px;
+}
+
+.AddBook div form{
+    margin-left: 8%;
+}
+
+.AddBook div form input{
+    width: 90%;
+    border-radius: 5px;
+    padding: 4px;
+    border: 1px black solid;
+}
+
+.AddBook div button{
+    margin: 0px;
+    padding: 20px;
+
+    color: #aaaaaa;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 10px;
+    letter-spacing: 3px;
+    background-color: black;
+
+    border-radius: 10px;
+    border: none;
+
+    cursor: pointer;
+    transition: color 0.5s;
+}
+
+.AddBook div button:hover{
+    color: #eeeeee;
+}
