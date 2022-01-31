@@ -41,5 +41,5 @@ The Hot Reloading is not working for now with docker for the front-end
 
 ## License
 
-Copyright (c) Loïc Vanden-Bossche, Mathieu Ferreira, Enzo Soares, Quentin Coqueran . All rights reserved.
+Copyright (c) Loïc Vanden-Bossche, Mathieu Ferreira, Enzo Soares, Quentin Coqueran. All rights reserved.
 
