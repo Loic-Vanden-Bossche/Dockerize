@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 
 import { ConfigModule } from '@nestjs/config';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     AuthModule,
     PassportModule,
+    BooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
