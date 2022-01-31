@@ -1,5 +1,6 @@
 import ListCell from "./ListCell";
 import { IBookList } from "../lib/Types";
+import "./BookList.css";
 
 const BookList = () => {
     const books:IBookList = {
