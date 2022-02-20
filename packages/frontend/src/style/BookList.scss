@@ -1,0 +1,227 @@
+ul{
+  grid-template-columns: 1fr;
+  width: 75%;
+}
+
+@media (min-width: 760px) {
+  ul{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 980px) {
+  ul{
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 1250px) {
+  ul{
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@media (min-width: 1500px) {
+  ul{
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    max-width: 1800px;
+  }
+}
+
+
+ul {
+  display: grid;
+  grid-gap: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  list-style: none;
+
+  li {
+    animation: appear 1s;
+    width: 250px;
+    height: 400px;
+
+    .preview {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .image{
+        position: relative;
+        left: 62px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+
+        .slice{
+          width: 5px;
+          height: 200px;
+          overflow: clip;
+          background-color: rgb(10,10,10);
+          transition-duration: 0.3s;
+
+          img{
+            width: 1250px;
+            height: 2000px;
+            filter: opacity(0.5);
+          }
+        }
+
+        img{
+          width: 125px;
+          height: 200px;
+          transition-duration: 0.3s;
+        }
+
+        .shadow{
+          width: 125px;
+          height: 15px;
+          position: relative;
+          left: -130px;
+          transform-origin: bottom left;
+          transform: skewX(65deg);
+          z-index: -1;
+          background: linear-gradient(rgba(0,0,0,0), rgb(20,20,20,0.6));
+          filter: blur(4px);
+          transition-duration: 0.3s;
+        }
+      }
+
+      .description{
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+
+        h2{
+          font-size: 15px;
+          font-weight: bold;
+          text-transform: capitalize;
+          margin: 0px;
+          text-align: center;
+
+        }
+        h2::after{
+          margin-top: 4px;
+          content:"";
+          height: 2px;
+          width: 0%;
+          display: block;
+          background-color: black;
+          transition-duration: 0.3s;
+          position: relative;
+          left: 50%;
+        }
+
+        h4{
+          font-size: 12px;
+          font-weight: bold;
+          text-transform: capitalize;
+          color: rgb(100,100,100);
+          margin-top: 8px;
+          text-align: center;
+          transition-duration: 0.3s;
+        }
+      }
+    }
+  }
+
+  li:hover{
+    cursor: pointer;
+  }
+  li:hover > .preview > .image > img,li:hover > .preview > .image > .slice{
+    transform: translateY(-20px);
+  }
+  li:hover > .preview > .image > .shadow{
+    transform: skewX(65deg) translateX(-30px) translateY(-10px);
+    filter: blur(16px);
+  }
+  li:hover > .preview > .description > h2::after{
+    width: 104%;
+    left: -2%;
+  }
+  li:hover > .preview > .description > h4{
+    color: rgb(30,30,30);
+  }
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.loading{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .lds-ring {
+    display: inline-block;
+    position: relative;
+    transform: translateX(-120px) translateY(-120px);
+    div {
+      box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border: 4px dotted;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: rgb(20,20,20,0.2) transparent rgb(20,20,20,0.2) transparent;
+
+      div:nth-child(1) {
+        animation-delay: -0.45s;
+      }
+
+      div:nth-child(2) {
+        animation-delay: -0.3s;
+      }
+
+      div:nth-child(3) {
+        animation-delay: -0.15s;
+      }
+    }
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  p {
+    transform: translateY(-25px);
+    animation: appear-disappear 2s infinite;
+  }
+
+  @keyframes appear-disappear {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
