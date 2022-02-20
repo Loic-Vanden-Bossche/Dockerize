@@ -1,11 +1,8 @@
-export interface IBook{
+export interface Book{
+    isbn : string,
     title : string,
     author : string,
     overview : string,
     picture : string,
     read_count : number,
-}
-
-export interface IBookList{
-    [isbn: string]: IBook
 }
