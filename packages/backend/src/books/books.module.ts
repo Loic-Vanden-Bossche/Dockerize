@@ -6,6 +6,7 @@ import { LoggerModule } from '../utils/logger';
 import { PaginatorModule } from '../common/paginator/paginator.module';
 import { PaginatorService } from '../common/paginator/paginator.service';
 import { Book } from './book.model';
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
   providers: [BooksService],
@@ -17,6 +18,7 @@ import { Book } from './book.model';
     TypeOrmModule.forFeature([Book]),
     LoggerModule,
     PaginatorModule,
+    HttpModule
   ],
   providers: [BooksService, PaginatorService],
   controllers: [BooksController],

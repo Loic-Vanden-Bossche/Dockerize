@@ -1,15 +1,21 @@
 import {
   BadRequestException,
   Body,
-  Controller, Delete, Get,
-  InternalServerErrorException, NotFoundException, Param,
-  Post, Put, Query,
+  Controller,
+  Delete,
+  Get,
+  InternalServerErrorException,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  Query,
 } from '@nestjs/common';
-import { Logger } from '../utils/logger';
-import { IPageOptions } from '../common/paginator/dto/page-options.interface';
-import { Page } from '../common/paginator/dto/page.dto';
-import { BooksService } from './books.service';
-import { Book } from './book.model';
+import {Logger} from '../utils/logger';
+import {IPageOptions} from '../common/paginator/dto/page-options.interface';
+import {Page} from '../common/paginator/dto/page.dto';
+import {BooksService} from './books.service';
+import {Book} from './book.model';
 
 @Controller('books')
 export class BooksController {
@@ -27,20 +33,28 @@ export class BooksController {
     const doesBookAlreadyExists = await this.bookService.isbnExists(
       book.isbn,
     );
+
+    book.overview = await this.bookService.getOverviewFromIsbn(book.isbn);
+
     if (doesBookAlreadyExists) {
       throw new BadRequestException('Isbn already taken');
     }
-    const savedBook = this.bookService.save(book).catch((err) => {
+    return this.bookService.save(book).catch((err) => {
       this.logger.error(err);
       throw new InternalServerErrorException();
     });
-    return savedBook;
   }
 
   @Get()
   findAll(@Query() page: IPageOptions<Book>): Promise<Page<Book>> {
     this.logger.log('GET books/', 'access');
     return this.bookService.findAll(page);
+  }
+
+  @Get('search/:query')
+  search(@Param('query') query: string) {
+    this.logger.log('GET books/' + query, 'access');
+    return this.bookService.search(query);
   }
 
   @Get(':id')
@@ -73,8 +87,7 @@ export class BooksController {
     book.read_count = partialBook.read_count;
 
     try {
-      const savedBook = this.bookService.save(book);
-      return savedBook;
+      return this.bookService.save(book);
     } catch (err) {
       throw new InternalServerErrorException();
     }
