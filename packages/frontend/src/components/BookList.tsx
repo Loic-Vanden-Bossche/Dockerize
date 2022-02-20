@@ -4,21 +4,16 @@ import { useGetBooksQuery } from "../store/api/books";
 import {Book} from "../lib/Types";
 
 const BookList = () => {
-
     const { data, error, isLoading } = useGetBooksQuery();
-
-    console.log(isLoading);
-    console.log(data);
-    console.log(error);
 
     if (isLoading){
         return(
             <div className="loading">
                 <div className="lds-ring">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
+                    <div> </div>
                 </div>
                 <p>Loading books</p>
             </div>
