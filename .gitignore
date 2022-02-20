@@ -5,6 +5,7 @@
 .vscode
 .idea
 db
+postgressql
 
 .DS_Store
 
