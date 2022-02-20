@@ -1,0 +1,86 @@
+.AddBook {
+  z-index: 1;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .Modal {
+    width: 500px;
+    height: 500px;
+
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 100px black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+    .Header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 90%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      h2{
+        font-size: 25px;
+        letter-spacing: 3px;
+        margin: 0px;
+        text-transform: uppercase;
+      }
+
+      .cross{
+        width: 25px;
+        height: 25px;
+        background: none;
+        border: none;
+        .left{
+          border-radius: 2px;
+          height: 2px;
+          width: 30px;
+          background-color: black;
+          transform: rotate(-45deg) translateY(2px);
+        }
+        .right{
+          border-radius: 2px;
+          height: 2px;
+          width: 30px;
+          background-color: black;
+          transform: rotate(45deg) translateY(-2px);
+        }
+      }
+    }
+
+    input{
+      width: 90%;
+      height: 30px;
+      border-radius: 5px;
+      padding: 4px;
+      border: 1px black solid;
+    }
+
+    ul{
+      height: 74%;
+      width: 83%;
+      margin-right: 9%;
+      background-color: aqua;
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      justify-content: start;
+    }
+  }
+}
