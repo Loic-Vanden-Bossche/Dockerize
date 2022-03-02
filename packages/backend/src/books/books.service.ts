@@ -42,7 +42,7 @@ export class BooksService {
     return firstValueFrom(this.http.get(`https://openlibrary.org/isbn/${isbn}.json`))
       .then(book => book.data.works[0].key.split('/')[2])
       .then(key => firstValueFrom(this.http.get(`https://openlibrary.org/works/${key}.json`)))
-      .then(data => data.data.description.value.slice(0, 1500))
+      .then(data => data.data.description?.value.slice(0, 1500))
   }
 
   async findByIsbn(isbn: string): Promise<Book> {
