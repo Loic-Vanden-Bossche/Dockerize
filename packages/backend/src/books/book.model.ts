@@ -21,7 +21,7 @@ export class Book extends BaseEntity {
   @Column('integer', { default: 1, nullable: true})
   read_count: number;
 
-  @Column('bytea', { nullable: true})
+  @Column('varchar', { nullable: true})
   picture: any;
 
 }
