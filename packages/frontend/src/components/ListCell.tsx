@@ -8,7 +8,7 @@ const ListCell = (prop: {book: Book}) => {
                     <div className="slice">
                         <img src={`https://images.isbndb.com/covers/53/15/${prop.book.isbn}.jpg`} alt={prop.book.title}/>
                     </div>
-                    <img src={`https://images.isbndb.com/covers/53/15/${prop.book.isbn}.jpg`} alt={prop.book.title}/>
+                    <img src={prop.book.picture} alt={prop.book.title}/>
                     <div className="shadow"/>
                 </div>
                 <div className="description">
