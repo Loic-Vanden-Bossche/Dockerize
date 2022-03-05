@@ -1,7 +1,6 @@
 import "../style/AddBook.scss";
 import {Book} from "../lib/Types";
-import "../style/BookInformation.scss"
-import {useChangeBookReadTimeMutation} from "../store/api/books";
+import "../style/BookInformation.scss";
 
 const BookInformation = (prop:{show:Boolean, disable:() => void, book: Book|null}) => {
 
