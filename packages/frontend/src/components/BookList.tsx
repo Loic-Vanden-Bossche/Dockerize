@@ -3,7 +3,7 @@ import "../style/BookList.scss";
 import { useGetRegisteredBooksQuery } from "../store/api/books";
 import {Book} from "../lib/Types";
 
-const BookList = () => {
+const BookList = (prop: {openBook: (book: Book) => void}) => {
     const { data, error, isLoading } = useGetRegisteredBooksQuery();
 
     if (isLoading){
@@ -29,7 +29,7 @@ const BookList = () => {
             <ul className="BookList">
                 {data?.map((item: Book) => {
                     return (
-                        <ListCell key={item.isbn} book={item}/>
+                        <ListCell key={item.isbn} book={item} onClick={prop.openBook}/>
                     );
                 })}
             </ul>

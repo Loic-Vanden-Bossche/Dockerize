@@ -1,12 +1,12 @@
 import { Book } from "../lib/Types";
 import { useDeleteBookMutation } from "../store/api/books";
 
-const ListCell = (prop: {book: Book}) => {
+const ListCell = (prop: {book: Book, onClick: (book: Book) => void}) => {
     const  [delBook] = useDeleteBookMutation();
     return (
         <li className="ListCell">
             <div className="preview">
-                <div className="image">
+                <div className="image" onClick={() => prop.onClick(prop.book)}>
                     <div className="slice">
                         <img src={prop.book.picture} alt={prop.book.title}/>
                     </div>
