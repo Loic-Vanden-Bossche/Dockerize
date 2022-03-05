@@ -13,15 +13,15 @@ export class Book extends BaseEntity {
   title: string;
 
   @Column('varchar', { length: 150 })
-  author: string;
+  author: string | null;
 
   @Column('varchar', { length: 1500, nullable: true })
-  overview: string;
+  overview: string | null;
 
   @Column('integer', { default: 1, nullable: true})
   read_count: number;
 
   @Column('varchar', { nullable: true})
-  picture: string;
+  picture: string | null;
 
 }
