@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
-import {Book} from "../../lib/Types";
+import {Book, ReadCountModification} from "../../lib/Types";
 
 export const booksApi = createApi({
     reducerPath: 'booksApi',
@@ -13,10 +13,12 @@ export const booksApi = createApi({
             providesTags: () => [{type:'GET', skip: true, id:'getRegisteredBooks'}],
             transformResponse: (response: { data: Book[] }) => response.data,
         }),
+
         getBooksWithSimilarName: builder.query<Book[], string>({
             query: (name) => ({url:`books/search/${name}`}),
             providesTags: () => [{type:'GET', skip: true, id:'getBooksWithSimilarName'}],
         }),
+
         postNewBook: builder.mutation<Book, Book>({
             query: (bookData) => ({
                 url:`books/`,
@@ -25,6 +27,7 @@ export const booksApi = createApi({
             }),
             invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
         }),
+
         deleteBook: builder.mutation<Book, string>({
             query: (isbn) => ({
                 url:`books/${isbn}`,
@@ -32,7 +35,22 @@ export const booksApi = createApi({
             }),
             invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
         }),
+
+        changeBookReadTime: builder.mutation<Book, ReadCountModification>({
+            query: (modifications) => ({
+                url:`books/${modifications.isbn}`,
+                method:'PUT',
+                body: modifications
+            }),
+            invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
+        }),
     }),
 })
 
-export const { useGetRegisteredBooksQuery, useGetBooksWithSimilarNameQuery, usePostNewBookMutation, useDeleteBookMutation } = booksApi
+export const {
+    useGetRegisteredBooksQuery,
+    useGetBooksWithSimilarNameQuery,
+    usePostNewBookMutation,
+    useDeleteBookMutation,
+    useChangeBookReadTimeMutation
+} = booksApi

@@ -6,3 +6,8 @@ export interface Book{
     picture : string,
     read_count : number,
 }
+
+export interface ReadCountModification{
+    isbn : string,
+    read_count : number
+}

@@ -1,9 +1,12 @@
 import "../style/AddBook.scss";
 import {Book} from "../lib/Types";
 import "../style/BookInformation.scss"
+import {useChangeBookReadTimeMutation} from "../store/api/books";
 
 const BookInformation = (prop:{show:Boolean, disable:() => void, book: Book|null}) => {
+
     if(prop.show && prop.book){
+
         return (
             <div className="BookInformation">
                 <div className="Modal">
