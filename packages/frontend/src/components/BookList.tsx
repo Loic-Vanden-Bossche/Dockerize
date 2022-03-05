@@ -1,10 +1,10 @@
 import ListCell from "./ListCell";
 import "../style/BookList.scss";
-import { useGetBooksQuery } from "../store/api/books";
+import { useGetRegisteredBooksQuery } from "../store/api/books";
 import {Book} from "../lib/Types";
 
 const BookList = () => {
-    const { data, error, isLoading } = useGetBooksQuery();
+    const { data, error, isLoading } = useGetRegisteredBooksQuery();
 
     if (isLoading){
         return(
