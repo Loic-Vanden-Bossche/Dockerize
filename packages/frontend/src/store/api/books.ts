@@ -17,7 +17,7 @@ export const booksApi = createApi({
             query: (name) => ({url:`books/search/${name}`}),
             providesTags: () => [{type:'GET', skip: true, id:'getBooksWithSimilarName'}],
         }),
-        postNewBook: builder.mutation<Book[], Book>({
+        postNewBook: builder.mutation<Book, Book>({
             query: (bookData) => ({
                 url:`books/`,
                 method:'POST',
@@ -25,7 +25,14 @@ export const booksApi = createApi({
             }),
             invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
         }),
+        deleteBook: builder.mutation<Book, string>({
+            query: (isbn) => ({
+                url:`books/${isbn}`,
+                method:'DELETE',
+            }),
+            invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
+        }),
     }),
 })
 
-export const { useGetRegisteredBooksQuery, useGetBooksWithSimilarNameQuery, usePostNewBookMutation } = booksApi
+export const { useGetRegisteredBooksQuery, useGetBooksWithSimilarNameQuery, usePostNewBookMutation, useDeleteBookMutation } = booksApi
