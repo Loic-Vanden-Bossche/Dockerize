@@ -6,14 +6,26 @@ export const booksApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:4000/'
     }),
-    tagTypes: ['Get', 'POST', 'DELETE', 'PUT'],
+    tagTypes: ['GET', 'POST', 'DELETE', 'PUT'],
     endpoints: builder => ({
-        getBooks: builder.query<Book[], void>({
+        getRegisteredBooks: builder.query<Book[], void>({
             query: () => 'books/',
-            providesTags: (result, error, id) => [{type:'Get', skip: true, id:'getBooks'}],
+            providesTags: (result, error, id) => [{type:'GET', skip: true, id:'getRegisteredBooks'}],
             transformResponse: (response: { data: Book[] }, meta, arg) => response.data,
+        }),
+        getBooksWithSimilarName: builder.query<Book[], string>({
+            query: (name) => ({url:`books/search/${name}`}),
+            providesTags: (result, error, id) => [{type:'GET', skip: true, id:'getBooksWithSimilarName'}],
+        }),
+        postNewBook: builder.mutation<Book[], Book>({
+            query: (bookData) => ({
+                url:`books/`,
+                method:'POST',
+                body: bookData
+            }),
+            invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
         }),
     }),
 })
 
-export const { useGetBooksQuery } = booksApi
+export const { useGetRegisteredBooksQuery, useGetBooksWithSimilarNameQuery, usePostNewBookMutation } = booksApi
