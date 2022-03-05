@@ -14,16 +14,17 @@ import { Role } from '../src/roles/role.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RolesModule } from '../src/roles/role.module';
 
-import { INestApplication, Logger as BaseLogger} from '@nestjs/common';
+import { INestApplication, Logger as BaseLogger } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../src/auth/auth.module';
 import { UserModule } from '../src/user/user.module';
-import path from "path";
-import { silent } from "../src/utils/logger";
-import * as dotenv from "dotenv";
+import path from 'path';
+import { silent } from '../src/utils/logger';
+import * as dotenv from 'dotenv';
 
-import { Logger } from '../src/utils/logger'
+import { Logger } from '../src/utils/logger';
+import { BooksModule } from '../src/books/books.module';
 
 export class TestHelpers {
   public roleFactory: RoleFactory;
@@ -39,7 +40,6 @@ export class TestHelpers {
     this.roleFactory = new RoleFactory(5);
   }
   public startServer = async (): Promise<INestApplication> => {
-
     this.loadEnvironmentVariables();
 
     const module = await Test.createTestingModule({
@@ -58,10 +58,11 @@ export class TestHelpers {
         }),
         UserModule,
         AuthModule,
+        BooksModule,
         PassportModule,
       ],
     }).compile();
-    const app = module.createNestApplication(null, { logger: new Logger });
+    const app = module.createNestApplication(null, { logger: new Logger() });
     await app.init();
 
     try {
