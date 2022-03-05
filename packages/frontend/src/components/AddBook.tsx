@@ -6,11 +6,10 @@ import {Book} from "../lib/Types";
 const AddBook = (prop:{show:Boolean, disable:() => void}) => {
     const [Title, setTitle] = useState("")
     const { data } = useGetBooksWithSimilarNameQuery(Title);
-    const [addBook, result] = usePostNewBookMutation();
+    const [addBook] = usePostNewBookMutation();
 
     if(prop.show){
         const handleSubmit = (book:Book) => {
-            console.log(book)
             addBook(book);
             prop.disable()
         }

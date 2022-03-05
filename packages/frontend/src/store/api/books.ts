@@ -10,12 +10,12 @@ export const booksApi = createApi({
     endpoints: builder => ({
         getRegisteredBooks: builder.query<Book[], void>({
             query: () => 'books/',
-            providesTags: (result, error, id) => [{type:'GET', skip: true, id:'getRegisteredBooks'}],
-            transformResponse: (response: { data: Book[] }, meta, arg) => response.data,
+            providesTags: () => [{type:'GET', skip: true, id:'getRegisteredBooks'}],
+            transformResponse: (response: { data: Book[] }) => response.data,
         }),
         getBooksWithSimilarName: builder.query<Book[], string>({
             query: (name) => ({url:`books/search/${name}`}),
-            providesTags: (result, error, id) => [{type:'GET', skip: true, id:'getBooksWithSimilarName'}],
+            providesTags: () => [{type:'GET', skip: true, id:'getBooksWithSimilarName'}],
         }),
         postNewBook: builder.mutation<Book[], Book>({
             query: (bookData) => ({
