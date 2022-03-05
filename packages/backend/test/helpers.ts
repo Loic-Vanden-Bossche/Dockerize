@@ -24,7 +24,7 @@ import { silent } from '../src/utils/logger';
 import * as dotenv from 'dotenv';
 
 import { Logger } from '../src/utils/logger';
-import {BooksModule} from "../src/books/books.module";
+import { BooksModule } from '../src/books/books.module';
 
 export class TestHelpers {
   public roleFactory: RoleFactory;
@@ -149,10 +149,7 @@ export class TestHelpers {
     const envPath = path.join(__dirname, '..', '..', '..', '.env');
 
     if (!silent()) {
-      BaseLogger.log(
-        'Loading env from :' + path.resolve(__dirname, envPath),
-        'env',
-      );
+      BaseLogger.log('Loading env from :' + path.resolve(__dirname, envPath), 'env');
     }
 
     dotenv.config({ path: path.resolve(__dirname, envPath) });
