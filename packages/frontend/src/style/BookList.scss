@@ -76,7 +76,7 @@ ul {
           height: 200px;
           transition-duration: 0.3s;
         }
-
+        
         .shadow{
           width: 125px;
           height: 15px;
@@ -126,6 +126,15 @@ ul {
           margin-top: 8px;
           text-align: center;
           transition-duration: 0.3s;
+        }
+
+        button{
+          border : none;
+          background : none;
+        }
+
+        button:hover{
+          cursor : pointer;
         }
       }
     }
