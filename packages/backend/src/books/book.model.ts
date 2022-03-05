@@ -22,6 +22,6 @@ export class Book extends BaseEntity {
   read_count: number;
 
   @Column('varchar', { nullable: true})
-  picture: any;
+  picture: string;
 
 }
