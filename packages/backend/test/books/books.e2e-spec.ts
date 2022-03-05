@@ -31,9 +31,22 @@ describe('Books', () => {
           isbn: '9781896095448',
           title: 'The witcher',
           author: 'Joan Weir',
+          overview: null,
+          read_count: 1,
           picture: 'https://covers.openlibrary.org/b/isbn/9781896095448-L.jpg',
         });
       await request.expect(201);
+    });
+    test('should return 422', async () => {
+      const request: Test = supertest(testServer.getHttpServer())
+        .post('/books')
+        .send({
+          isbn: '9781896095448',
+          title: 'The witcher',
+          author: 'Joan Weir',
+          picture: 'https://covers.openlibrary.org/b/isbn/9781896095448-L.jpg',
+        });
+      await request.expect(422);
     });
   });
 
@@ -58,8 +71,7 @@ describe('Books', () => {
       const request: Test = supertest(testServer.getHttpServer())
         .put('/books/9781896095448')
         .send({
-          isbn: '9781896095448',
-          title: 'The winter is coming',
+          read_count: 5,
         });
       await request.expect(200);
     });
