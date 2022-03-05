@@ -16,7 +16,7 @@ const ListCell = (prop: {book: Book}) => {
                 <div className="description">
                     <h2>{prop.book.title}</h2>
                     <h4>{prop.book.author}</h4>
-                    <button onClick={() => delBook(prop.book.isbn) }><img src="trash.svg" width="15px" height="20px"></img></button>
+                    <button onClick={() => delBook(prop.book.isbn) }><img src="trash.svg" width="15px" height="20px" alt="Trash image"></img></button>
                 </div>
             </div>
         </li>
