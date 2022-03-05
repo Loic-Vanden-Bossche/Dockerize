@@ -16,7 +16,12 @@ import { IPageOptions } from '../common/paginator/dto/page-options.interface';
 import { Page } from '../common/paginator/dto/page.dto';
 import { BooksService } from './books.service';
 import { Book } from './book.model';
-import {CreateBookDTO, createBookSchema, UpdateBookDTO, updateBookSchema} from './book.dto';
+import {
+  CreateBookDTO,
+  createBookSchema,
+  UpdateBookDTO,
+  updateBookSchema,
+} from './book.dto';
 import { JoiValidationPipe } from '../utils/validation.pipe';
 
 @Controller('books')
