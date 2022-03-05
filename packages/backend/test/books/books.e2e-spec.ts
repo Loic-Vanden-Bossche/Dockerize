@@ -6,7 +6,6 @@ import { Book } from '../../src/books/book.model';
 let testServer: INestApplication;
 let testHelpers: TestHelpers;
 
-
 describe('Books', () => {
   let randomBook: { profile: Book; token: string };
   beforeAll(async () => {
@@ -45,19 +44,17 @@ describe('Books', () => {
     });
   });
 
-  describe('GET books/', () => {
+  describe('GET books/:isbn', () => {
     test('should return 1 book with specified isbn', async () => {
-      const request: Test = supertest(testServer.getHttpServer())
-        .get('/books')
-        .send({
-          isbn: '9781896095448',
-        });
+      const request: Test = supertest(testServer.getHttpServer()).get(
+        '/books/9781896095448',
+      );
       await request.expect(200);
     });
   });
 
-  describe('PUT books/', () => {
-    test('should return 1 book', async () => {
+  describe('PUT books/:isbn', () => {
+    test('Should update 1 book', async () => {
       const request: Test = supertest(testServer.getHttpServer())
         .put('/books/9781896095448')
         .send({
@@ -68,10 +65,11 @@ describe('Books', () => {
     });
   });
 
-  describe('DELETE books/', () => {
+  describe('DELETE books/:isbn', () => {
     test('should delete 1 book with specified isbn', async () => {
-      const request: Test = supertest(testServer.getHttpServer())
-        .delete('/books/9781896095448');
+      const request: Test = supertest(testServer.getHttpServer()).delete(
+        '/books/9781896095448',
+      );
       await request.expect(200);
     });
   });
