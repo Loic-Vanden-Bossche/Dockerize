@@ -5,20 +5,30 @@ that he has read during his life, in his virtual library.
 
 The goal of this project is to learn how to use development tools such as [Github](https://github.com/) and [Docker](https://www.docker.com/)
 
-## Installation
+## Deployment
 
-At the root of the project you can use the command :
+At the root of the project you can use these commands :
 
+To start containers:
 ```
-npm install -g pnpm
-
-pnpm install
-
 npm start
 ```
 
-to launch the Docker containers
+To install modules locally:
+```
+npm install -g pnpm
+pnpm install
+```
 
+## GitHub Actions
+
+The project has a CI system managed by GitHub actions.
+
+It run the following actions:
+- `back-build`: build the back-end
+- `front-build`: build the front-end
+- `back-tests`: run the tests on the back-end
+- `back-tests-e2e`: run the end-to-end tests on the back-end
 
 ## Front-End
 
@@ -57,18 +67,36 @@ If you click on one of the library book it display all the following information
 
 ## Back-end
 
-The application back is based on [NestJS](https://nestjs.com/)
+The application back is based on [NestJS](https://nestjs.com/) with typescript language. 
 
-## Usage
+All the base features requested in the "Sujet proposé #1 : API Rest" have been added.
+
+We have users, an authentication system, book management.
+We also have roles for users. 
+
+For list queries we implemented a pagination system.
+
+Schema validation is implemented with [Joi](https://www.npmjs.com/package/joi) for all endpoints and entities.
+
+For the book search system we query the [openlibrary](https://openlibrary.org/) REST API.\
+
+The added books are stored in the database with data from the API [openlibrary](https://openlibrary.org/). 
 
 ## Testing
+
+There is 89 e2e tests for backend.
+For users, auth and books.
+
+To run the tests locally you can use the following command :
+```
+npm run test:e2e
+```
 
 ## Caveat
 
 The Hot Reloading is not working for now with docker for the front-end
 
-## Contributing
-
+Modules are installed at containers build. Node module from host and containers are totally separated.
 
 ## License
 
