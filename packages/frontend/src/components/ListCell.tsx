@@ -39,7 +39,7 @@ const ListCell = (prop: {book: Book, onClick: (book: Book) => void}) => {
                     <h5>
                         <button onClick={handleReadCountIncrease}>+</button>
                         Read {prop.book.read_count} times
-                        <button onClick={handleReadCountDecrease}>-</button>
+                        <button disabled={prop.book.read_count <= 1} onClick={handleReadCountDecrease}>-</button>
                     </h5>
                     <button onClick={() => delBook(prop.book.isbn) }><img src="trash.svg" width="15px" height="20px" alt="delete"></img></button>
                 </div>
