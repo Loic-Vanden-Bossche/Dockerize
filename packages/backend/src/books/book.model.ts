@@ -12,16 +12,16 @@ export class Book extends BaseEntity {
   @Column('varchar', { length: 200 })
   title: string;
 
-  @Column('varchar', { length: 150 })
+  @Column('varchar', { length: 150, nullable: true })
   author: string | null;
 
   @Column('varchar', { length: 1500, nullable: true })
   overview: string | null;
 
-  @Column('integer', { default: 1, nullable: true})
+  @Column('integer', { default: 1 })
   read_count: number;
 
-  @Column('varchar', { nullable: true})
+  @Column('varchar', { nullable: true })
   picture: string | null;
 
 }
