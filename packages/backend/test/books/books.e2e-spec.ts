@@ -7,7 +7,6 @@ let testServer: INestApplication;
 let testHelpers: TestHelpers;
 
 describe('Books', () => {
-  let randomBook: { profile: Book; token: string };
   beforeAll(async () => {
     testHelpers = new TestHelpers();
     testServer = await testHelpers.startServer();
