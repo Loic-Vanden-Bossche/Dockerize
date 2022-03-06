@@ -1,0 +1,39 @@
+{
+  "id": "d195bde9-6119-490f-8bde-4d2ab69521ff",
+  "name": "local",
+  "values": [
+    {
+      "key": "host",
+      "value": "localhost",
+      "enabled": true
+    },
+    {
+      "key": "port",
+      "value": "3000",
+      "enabled": true
+    },
+    {
+      "key": "admin_email",
+      "value": "admin@yourdomain.com",
+      "enabled": true
+    },
+    {
+      "key": "admin_password",
+      "value": "esgi38",
+      "enabled": true
+    },
+    {
+      "key": "user_email",
+      "value": "john.doe@yourdomain.com",
+      "enabled": true
+    },
+    {
+      "key": "user_password",
+      "value": "T0p!S3cr3t",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2020-04-03T10:03:36.129Z",
+  "_postman_exported_using": "Postman/7.19.1"
+}
