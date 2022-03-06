@@ -41,7 +41,7 @@ export class BooksController {
     const newBook = Object.assign(new Book(), book);
     const doesBookAlreadyExists = await this.bookService.isbnExists(book.isbn);
 
-    book.overview = await this.bookService.getOverviewFromIsbn(book.isbn);
+    newBook.overview = await this.bookService.getOverviewFromIsbn(book.isbn);
 
     if (doesBookAlreadyExists) {
       throw new BadRequestException('Isbn already taken');

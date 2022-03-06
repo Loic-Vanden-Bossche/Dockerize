@@ -1,13 +1,11 @@
 import supertest, { Test, Response } from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { TestHelpers } from '../helpers';
-import { Book } from '../../src/books/book.model';
 
 let testServer: INestApplication;
 let testHelpers: TestHelpers;
 
 describe('Books', () => {
-  let randomBook: { profile: Book; token: string };
   beforeAll(async () => {
     testHelpers = new TestHelpers();
     testServer = await testHelpers.startServer();
@@ -31,8 +29,6 @@ describe('Books', () => {
           isbn: '9781896095448',
           title: 'The witcher',
           author: 'Joan Weir',
-          overview: null,
-          read_count: 1,
           picture: 'https://covers.openlibrary.org/b/isbn/9781896095448-L.jpg',
         });
       await request.expect(201);
@@ -44,6 +40,7 @@ describe('Books', () => {
           isbn: '9781896095448',
           title: 'The witcher',
           author: 'Joan Weir',
+          description: null,
           picture: 'https://covers.openlibrary.org/b/isbn/9781896095448-L.jpg',
         });
       await request.expect(422);

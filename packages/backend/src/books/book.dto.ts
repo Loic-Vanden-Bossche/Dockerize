@@ -4,8 +4,6 @@ export class CreateBookDTO {
   isbn: string;
   title: string;
   author: string | null;
-  overview: string | null;
-  read_count: number;
   picture: string | null;
 }
 
@@ -25,14 +23,6 @@ export const createBookSchema = Joi.object().keys({
     .required()
     .allow(null)
     .label('Please provide an author'),
-  overview: Joi.string()
-    .required()
-    .allow(null)
-    .label('Please provide an overview'),
-  read_count: Joi.number()
-    .required()
-    .min(1)
-    .label('Please provide a read-count with a minimum of 1'),
   picture: Joi.string()
     .allow(null)
     .label('Please provide a picture'),

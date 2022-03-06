@@ -40,7 +40,7 @@ export const booksApi = createApi({
             query: (modifications) => ({
                 url:`books/${modifications.isbn}`,
                 method:'PUT',
-                body: modifications
+                body: { read_count: modifications.read_count }
             }),
             invalidatesTags: [{type:'GET', id:'getRegisteredBooks'}],
         }),
