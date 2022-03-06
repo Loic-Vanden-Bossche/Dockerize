@@ -24,6 +24,7 @@ export const createBookSchema = Joi.object().keys({
     .allow(null)
     .label('Please provide an author'),
   picture: Joi.string()
+    .required()
     .allow(null)
     .label('Please provide a picture'),
 });
